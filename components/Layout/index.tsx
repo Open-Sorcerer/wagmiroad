@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ReactNode } from "react";
 import { Button, MenuDropdown, WalletOptionsModal } from "..";
 import { useAccount } from "wagmi";
+import Sidebar from "../Sidebar";
 
 interface Props {
   children: ReactNode;
@@ -85,17 +86,15 @@ export default function Layout(props: Props) {
         setOpen={setShowWalletOptions}
       />
 
-      <div className="absolute w-screen bg-gradient-to-r from-black to-white">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center">
-            <h4 className="text-2xl font-bold text-white cursor-default">
-              NextJS wagmi
-            </h4>
-          </div>
+      <div className="absolute w-full">
+        <div className="flex items-center justify-end p-4">
           {renderButton()}
         </div>
       </div>
-      {children}
+      <div>
+        <Sidebar/>
+        {children}
+      </div>
     </div>
   );
 }

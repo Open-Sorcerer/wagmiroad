@@ -1,6 +1,7 @@
 import { Fragment, ReactElement } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { AiFillCaretDown } from "react-icons/ai";
+import Button from "../Button";
 
 interface Props {
   label: ReactElement | string | undefined;
@@ -15,9 +16,11 @@ export default function Example(props: Props) {
 
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <Menu.Button className="inline-flex justify-between p-3 font-semibold border border-black rounded-md h-14 w-52 place-items-center">
-        {label}
-        <AiFillCaretDown className="w-5 h-5 ml-2 -mr-1" aria-hidden="true" />
+      <Menu.Button className="">
+        <Button>
+          {label}
+          <AiFillCaretDown className="w-5 h-5 ml-2 -mr-1" aria-hidden="true" />
+        </Button>
       </Menu.Button>
       <Transition
         as={Fragment}
@@ -34,9 +37,8 @@ export default function Example(props: Props) {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    className={`${
-                      active && "bg-black text-white"
-                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                    className={`${active && "bg-black text-white"
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                     onClick={onClick}
                   >
                     {label}
