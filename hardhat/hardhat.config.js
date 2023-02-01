@@ -1,4 +1,4 @@
-require("@nomiclabs/hardhat-waffle");
+require("@nomicfoundation/hardhat-toolbox");
 require("@nomiclabs/hardhat-etherscan");
 require("dotenv").config();
 
@@ -7,7 +7,7 @@ const MUMBAI_PRIVATE_KEY = process.env.MUMBAI_PRIVATE_KEY;
 const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY;
 
 module.exports = {
-  solidity: "0.8.0",
+  solidity: "0.8.9",
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
@@ -25,3 +25,6 @@ module.exports = {
     },
   },
 };
+
+
+// hyperspace = https://api.hyperspace.node.glif.io/rpc/v1

@@ -2,7 +2,9 @@ const hre = require("hardhat");
 
 async function main() {
   const Contract = await hre.ethers.getContractFactory("FactoryCourse");
-  const contract = await Contract.deploy(50); // 50 initial supply
+  const contract = await Contract.deploy(
+    "0x4E476F7FB84c785557cDECdbf8CADEbE8EA57C37"
+  );
   await contract.deployed();
   console.log("contract deployed to:", contract.address);
 
@@ -13,7 +15,7 @@ async function main() {
   // Verify the contract after deploying
   await hre.run("verify:verify", {
     address: contract.address,
-    constructorArguments: [],
+    constructorArguments: ["0x4E476F7FB84c785557cDECdbf8CADEbE8EA57C37"],
     contract: "contracts/FactoryCourse.sol:FactoryCourse",
   });
 }
@@ -28,3 +30,8 @@ main()
     console.error(error);
     process.exit(1);
   });
+
+
+  // 0xF05B8f643979eBD9769a65bdc8A752F64E1b011f
+
+  // factory contract address mumbai: 0x276F740dB3e6cf7D5c752fe3D3647FC29b107EBF
