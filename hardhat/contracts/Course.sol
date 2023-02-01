@@ -64,6 +64,9 @@ contract Course is ERC1155 {
         _mint(msg.sender, 0 , _num, "");
     }
 
+    /**
+     * 
+     */
     function withdraw(uint _amount, address _withdrawAddress) public payable{
         if(msg.sender != owner){
             revert ONLY_OWNER_CAN_CALL_FUNCTION();
