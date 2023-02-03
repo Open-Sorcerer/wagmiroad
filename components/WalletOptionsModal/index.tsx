@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { useEffect } from "react";
-import { useConnect, useAccount } from "wagmi";
-import { Button } from "..";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
+import { useAccount, useConnect } from "wagmi";
+import Button from "../Button";
 
 interface Props {
   open: boolean;

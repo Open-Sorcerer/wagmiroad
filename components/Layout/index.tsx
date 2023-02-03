@@ -1,21 +1,22 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
+import { useAccount, useBalance } from "wagmi";
 import { Button, MenuDropdown, WalletOptionsModal } from "..";
-import { useAccount } from "wagmi";
 import Sidebar from "../Sidebar";
-
 interface Props {
   children: ReactNode;
-  showWalletOptions: boolean;
-  setShowWalletOptions: (showWalletOptions: boolean) => void;
 }
 
 export default function Layout(props: Props) {
-  const { children, showWalletOptions, setShowWalletOptions } = props;
-
+  const { children } = props;
+  const [showWalletOptions, setShowWalletOptions] = useState(false);
   const [{ data: accountData, loading }, disconnect] = useAccount({
     fetchEns: true,
+  });
+  const [{ data: balanceData, loading: balanceLoading }] = useBalance({
+    addressOrName: accountData?.address,
+    watch: true,
   });
 
   const renderLabel = () => {
@@ -91,7 +92,7 @@ export default function Layout(props: Props) {
           {renderButton()}
         </div>
       </div>
-      <div>
+      <div className='flex flex-row w-full h-full justify-start items-center'>
         <Sidebar/>
         {children}
       </div>

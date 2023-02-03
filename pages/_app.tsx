@@ -1,10 +1,11 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { Provider, chain, defaultChains } from "wagmi";
+import { useState } from "react";
+import { Provider, chain, defaultChains, useAccount, useBalance } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { WalletLinkConnector } from "wagmi/connectors/walletLink";
-
+import { Layout } from "../components";
+import "../styles/globals.css";
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
 
 const chains = defaultChains;
@@ -38,7 +39,9 @@ const connectors = ({ chainId }: { chainId?: number }): Connector[] => {
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider autoConnect connectors={connectors}>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </Provider>
   );
 }

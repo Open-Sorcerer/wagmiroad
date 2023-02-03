@@ -1,14 +1,14 @@
 import { Loader } from "..";
 
 interface Props {
-  children: string | JSX.Element;
+  children: any;
   width?: number;
-  loading: boolean;
+  loading?: boolean;
   [x: string]: any;
 }
 
 export default function Button(props: Props) {
-  const { children, width, loading, ...rest } = props;
+  const { children, width, loading=false, ...rest } = props;
 
   return (
     <button

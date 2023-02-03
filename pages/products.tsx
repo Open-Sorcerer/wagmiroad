@@ -2,14 +2,15 @@ import { useState } from "react";
 import type { NextPage } from "next";
 import { useAccount, useBalance } from "wagmi";
 import { Button, Layout, Loader, WalletOptionsModal } from "../components";
+import CreateProduct from './../components/Products/CreateProduct';
 
-const Home: NextPage = () => {
+const Products: NextPage = () => {
 
   return (
     <>
-      <h1>Welcome to GumRoad</h1>
+      <CreateProduct />
     </>
   );
 };
 
-export default Home;
+export default Products;
