@@ -123,5 +123,3 @@ contract Course is ERC1155 {
     // Fallback function is used to receive Ether when msg.data is NOT empty
     fallback() external payable {}
 }
-
-//! no need to add total supply - as even roadgum have one, if a course is good they should be allowed to sell/mint as many nft they want
