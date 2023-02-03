@@ -13,6 +13,8 @@ contract Course is ERC1155 {
     //events
     event OneNftMinted(address indexed minter, uint nftPrice);
     event mutlipleNftMinted(address indexed minter, uint nftPrice, uint numberOfNFTs);
+    event WithdrawMoney(address withdrawAddress, uint amount);
+    
     // variable to store maximum number of NFT 
     uint public maxSupply;
     // counter to keep track how many NFT are minted
@@ -70,7 +72,9 @@ contract Course is ERC1155 {
     }
 
     /**
-     * 
+     * @dev withdraw(): function to withdraw contract balance 
+     * @param _amount : amount courseowner want to withdraw
+     * @param _withdrawAddress : address courseowner wants to withdraw to
      */
     function withdraw(uint _amount, address _withdrawAddress) public payable{
         if(msg.sender != owner){
@@ -92,6 +96,9 @@ contract Course is ERC1155 {
         if(!success1){
             revert TRANSFER_FAILED();
         }
+
+        // emit the WithdrawMoney
+        emit WithdrawMoney(_withdrawAddress, _amount);
     }
 
     // get the balance of the contract
