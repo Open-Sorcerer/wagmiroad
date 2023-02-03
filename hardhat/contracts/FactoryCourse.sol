@@ -101,6 +101,7 @@ contract FactoryCourse{
         }
         emit WithdrawMoney(factoryCourseOwner ,  _amount);
     }
+    
     // Getter functins
     // get the balance of the contract
     function getContractBalance() public view returns (uint256) {
