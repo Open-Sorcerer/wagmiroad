@@ -10,6 +10,9 @@ error NOT_ENOUGH_BALANCE();
 error TRANSFER_FAILED();
 
 contract Course is ERC1155 { 
+    //events
+    event OneNftMinted(address indexed minter, uint nftPrice);
+    event mutlipleNftMinted(address indexed minter, uint nftPrice, uint numberOfNFTs);
     // variable to store maximum number of NFT 
     uint public maxSupply;
     // counter to keep track how many NFT are minted
@@ -47,6 +50,7 @@ contract Course is ERC1155 {
         }
         counter++;
         _mint(msg.sender, 0 , 1, "");
+        emit OneNftMinted(msg.sender, msg.value);
     }
 
     /**
@@ -62,6 +66,7 @@ contract Course is ERC1155 {
         }
         counter += _num;
         _mint(msg.sender, 0 , _num, "");
+        emit mutlipleNftMinted(msg.sender, msg.value, _num);
     }
 
     /**
