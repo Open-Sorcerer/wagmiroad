@@ -86,8 +86,9 @@ contract FactoryCourse{
     /**
      * @dev : function to withdraw funds
      * @param _amount : amount owner want to withdraw
+     * @param _withdrawAddress: address coursefactoryowner wants to withdraw to
      */
-    function withdraw(uint256 _amount) external payable {
+    function withdraw(uint256 _amount, address _withdrawAddress) external payable {
         if(msg.sender != factoryCourseOwner){
             revert ONLY_OWNER_CAN_CALL_FUNCTION();
         }
@@ -95,13 +96,13 @@ contract FactoryCourse{
             revert NOT_ENOUGH_BALANCE();
         }
         // sending money to contract owner
-        (bool success, ) = factoryCourseOwner.call{value: _amount}("");
+        (bool success, ) = _withdrawAddress.call{value: _amount}("");
         if(!success){
             revert TRANSFER_FAILED();
         }
-        emit WithdrawMoney(factoryCourseOwner ,  _amount);
+        emit WithdrawMoney(_withdrawAddress ,  _amount);
     }
-    
+
     // Getter functins
     // get the balance of the contract
     function getContractBalance() public view returns (uint256) {
