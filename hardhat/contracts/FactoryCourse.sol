@@ -6,7 +6,7 @@ import "./Course.sol";
 contract FactoryCourse{
     // events
     event CreateNewCourse(string uri, uint supply, uint nftPrice, address factoryContractAddress, address indexed courseAddress);
-    event WithdrawMoney(address factoryContractOwner, uint amount);
+    event WithdrawMoney(address withdrawAddress, uint amount);
 
     // factory contract owner
     address private factoryCourseOwner;
