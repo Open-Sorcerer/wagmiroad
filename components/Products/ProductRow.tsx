@@ -4,29 +4,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
 interface PdtProps {
+    id: number;
     children?: ReactNode;
     title: string;
-    desc?: string;
+    description?: string;
     price?: number;
+    status: string;
 }
+
 export const ProductRow = (props: PdtProps) => {
-    const { title, desc, price, children } = props;
+    const { id, title, description, price, status, children } = props;
     const [isInfo, setIsInfo] = useState(false);
     return (
-        <div className='w-full h-full table-row'>
-            <div className='w-full h-full flex flex-row justify-between items-center'>
-                <h3 className='text-xl font-semibold'>{title}</h3>
+        <tr className='table-row odd:bg-gray-800 odd:border-gray-700 even:bg-gray-900 even:border-gray-700'>
+            <td className='table-cell text-left px-6 py-2  mono text-xl font-semibold'>{id}</td>
+            <th scope="row" className='relative flex flex-row text-left  px-6 py-2 font-medium text-xl whitespace-nowrap justify-between'>{title}
                 <FontAwesomeIcon
                     icon={faCircleInfo}
                     size='2x'
                     className='h-6 w-6'
                     onMouseEnter={() => setIsInfo(true)}
-                    onMouseLeave={() => setIsInfo(false)} />
-                {isInfo && <div className="w-2/3 max-w-full h-fit absolute -top-12 -right-6 z-10 inline-block px-3 py-2 text-sm font-medium text-white bg-dark rounded-lg shadow-sm">
-                    {desc}
-                </div>}
-                <h1 className='text-xl'>{price}</h1>
-            </div>
-        </div>
+                    onMouseLeave={() => setIsInfo(false)}
+                />
+                {
+                    isInfo &&
+                    <div className="w-fit h-fit absolute right-16 bottom-2 z-10 inline-block px-3 py-2 text-sm font-xl text-white bg-dark rounded-lg shadow-sm">
+                        {description}
+                    </div>
+                }
+            </th>
+            <td className='text-xl table-cell text-right px-6 py-2  mono'>{price}</td>
+            <td className='text-xl table-cell text-left px-6 py-2  mono'>{status}</td>
+        </tr>
     );
 };
