@@ -10,6 +10,11 @@ error NOT_ENOUGH_BALANCE();
 error TRANSFER_FAILED();
 
 contract Course is ERC1155 { 
+    //events
+    event OneNftMinted(address indexed minter, uint nftPrice);
+    event mutlipleNftMinted(address indexed minter, uint nftPrice, uint numberOfNFTs);
+    event WithdrawMoney(address withdrawAddress, uint amount);
+    
     // variable to store maximum number of NFT 
     uint public maxSupply;
     // counter to keep track how many NFT are minted
@@ -47,6 +52,7 @@ contract Course is ERC1155 {
         }
         counter++;
         _mint(msg.sender, 0 , 1, "");
+        emit OneNftMinted(msg.sender, msg.value);
     }
 
     /**
@@ -62,8 +68,14 @@ contract Course is ERC1155 {
         }
         counter += _num;
         _mint(msg.sender, 0 , _num, "");
+        emit mutlipleNftMinted(msg.sender, msg.value, _num);
     }
 
+    /**
+     * @dev withdraw(): function to withdraw contract balance 
+     * @param _amount : amount courseowner want to withdraw
+     * @param _withdrawAddress : address courseowner wants to withdraw to
+     */
     function withdraw(uint _amount, address _withdrawAddress) public payable{
         if(msg.sender != owner){
             revert ONLY_OWNER_CAN_CALL_FUNCTION();
@@ -84,6 +96,9 @@ contract Course is ERC1155 {
         if(!success1){
             revert TRANSFER_FAILED();
         }
+
+        // emit the WithdrawMoney
+        emit WithdrawMoney(_withdrawAddress, _amount);
     }
 
     // get the balance of the contract
@@ -108,5 +123,3 @@ contract Course is ERC1155 {
     // Fallback function is used to receive Ether when msg.data is NOT empty
     fallback() external payable {}
 }
-
-//! no need to add total supply - as even roadgum have one, if a course is good they should be allowed to sell/mint as many nft they want

@@ -4,6 +4,10 @@ pragma solidity ^0.8.9;
 import "./Course.sol";
 
 contract FactoryCourse{
+    // events
+    event CreateNewCourse(string uri, uint supply, uint nftPrice, address factoryContractAddress, address indexed courseAddress);
+    event WithdrawMoney(address withdrawAddress, uint amount);
+
     // factory contract owner
     address private factoryCourseOwner;
 
@@ -42,9 +46,13 @@ contract FactoryCourse{
     }
 
     /**
-     * @dev function to create new NFT collection
+     * @dev : function to create new course and course address on searchBy Address
+     * @param _uri : NFT URI
+     * @param _supply : Total supply of NFTs
+     * @param _nftPrice : Price of the NFT
+     * @param _creatorAddress : Address of the Creator
      */
-    function CreateCourse(string memory _uri, uint256 _supply , uint _nftPrice, address _creatorAddress) public {
+    function createCourse(string memory _uri, uint256 _supply , uint _nftPrice, address _creatorAddress) public {
         Course course = new Course(
             _uri,
             _supply,
@@ -56,6 +64,9 @@ contract FactoryCourse{
         // Increment the number of Course
         numOfCourse++;
 
+        // emit CreateNewCourse event
+        emit CreateNewCourse(_uri, _supply, _nftPrice, address(this), _creatorAddress);
+
         // Add the new Course to the mapping
         allCourses[msg.sender] = (
             factoryCourseStruct(
@@ -66,25 +77,33 @@ contract FactoryCourse{
                 factoryCourseOwner
             )
         );
+        
         // search the profile by using creator address
         searchByAddress[msg.sender].push(address(course));
     }
 
     // function to withdraw the fund from contract factory
-    function withdraw(uint256 amount) external payable {
+    /**
+     * @dev : function to withdraw funds
+     * @param _amount : amount owner want to withdraw
+     * @param _withdrawAddress: address coursefactoryowner wants to withdraw to
+     */
+    function withdraw(uint256 _amount, address _withdrawAddress) external payable {
         if(msg.sender != factoryCourseOwner){
             revert ONLY_OWNER_CAN_CALL_FUNCTION();
         }
-        if(getContractBalance() < amount){
+        if(getContractBalance() < _amount){
             revert NOT_ENOUGH_BALANCE();
         }
         // sending money to contract owner
-        (bool success, ) = factoryCourseOwner.call{value: amount}("");
+        (bool success, ) = _withdrawAddress.call{value: _amount}("");
         if(!success){
             revert TRANSFER_FAILED();
         }
+        emit WithdrawMoney(_withdrawAddress ,  _amount);
     }
 
+    // Getter functins
     // get the balance of the contract
     function getContractBalance() public view returns (uint256) {
         return address(this).balance;
