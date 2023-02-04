@@ -11,7 +11,7 @@ interface CategoryProps {
     category: any;
     setCategory: any;
 }
-export const CategoryCard = (props: CategoryProps) => {
+const CategoryCard = (props: CategoryProps) => {
     const { id, name, description, category, setCategory } = props;
     const [isInfo, setIsInfo] = useState(false);
     return (
@@ -37,3 +37,5 @@ export const CategoryCard = (props: CategoryProps) => {
         </button>
     );
 };
+
+export default CategoryCard;

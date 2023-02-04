@@ -9,7 +9,7 @@ interface StatProps {
     desc?: string;
     value?: string | number;
 }
-export const StatCard = (props: StatProps) => {
+const StatCard = (props: StatProps) => {
     const { label, desc, value } = props;
     const [isInfo, setIsInfo] = useState(false);
     return (
@@ -30,3 +30,5 @@ export const StatCard = (props: StatProps) => {
         </div>
     );
 };
+
+export default StatCard;

@@ -1,4 +1,4 @@
-import WalletOptionsModal from "./Globals/WalletOptionsModal";
+import WalletOptionsModal from ".";
 
 it("Renders", () => {
   expect(WalletOptionsModal).toBeTruthy();

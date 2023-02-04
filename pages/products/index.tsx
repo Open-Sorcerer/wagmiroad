@@ -1,10 +1,10 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
 import NewPdtBtn from '../../components/Products/NewPdtBtn/index';
-import { ProductRow } from '../../components/Products/ProductRow';
-import { StatCard } from '../../components/Products/StatCard';
 import { productsData } from '../api/pdts';
 import { statsData } from '../api/stats';
+import ProductRow from '../../components/Products/ProductRow';
+import StatCard from '../../components/Products/StatCard';
 
 const Products: NextPage = () => {
     const [products] = useState(productsData);

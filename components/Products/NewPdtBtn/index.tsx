@@ -23,4 +23,4 @@ const NewPdtBtn = () => {
     )
 }
 
-export default NewPdtBtn
+export default NewPdtBtn;

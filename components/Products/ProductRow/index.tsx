@@ -12,7 +12,7 @@ interface PdtProps {
     status: string;
 }
 
-export const ProductRow = (props: PdtProps) => {
+const ProductRow = (props: PdtProps) => {
     const { id, title, description, price, status, children } = props;
     const [isInfo, setIsInfo] = useState(false);
     return (
@@ -38,3 +38,5 @@ export const ProductRow = (props: PdtProps) => {
         </tr>
     );
 };
+
+export default ProductRow;
