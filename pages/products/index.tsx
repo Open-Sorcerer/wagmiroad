@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
-import NewPdtBtn from '../../components/Products/NewPdtBtn';
+import NewPdtBtn from '../../components/Products/NewPdtBtn/index';
 import { ProductRow } from '../../components/Products/ProductRow';
 import { StatCard } from '../../components/Products/StatCard';
 import { productsData } from '../api/pdts';
@@ -16,7 +16,7 @@ const Products: NextPage = () => {
         { id: "status", label: "Status", align: "left" },
     ];
     return (
-        <div className='w-full h-full flex flex-col justify-evenly items-center gap-10 p-10'>
+        <div className='w-full h-screen flex flex-col justify-evenly items-center gap-10 p-10'>
             <div className='w-full h-full flex flex-col sm:flex-row justify-between items-center'>
                 <h1 className='text-7xl'>Products</h1>
                 <NewPdtBtn />
@@ -28,7 +28,7 @@ const Products: NextPage = () => {
                     })
                 }
             </div>
-            <table className='w-full h-fit table overflow-x-auto table-auto border-separate border border-slate-400 text-sm text-left text-black'>
+            <table className='w-full h-fit table overflow-x-auto table-auto border-separate border border-slate-400 text-sm text-left bg-white text-black'>
                 <thead className="table-header-group text-xl">
                     <tr className='table-row'>
                         {columns.map((column) => (

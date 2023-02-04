@@ -87,7 +87,7 @@ export default function Layout(props: Props) {
         setOpen={setShowWalletOptions}
       />
 
-      <div className="absolute w-full">
+      <div className="fixed w-full">
         <div className="flex items-center justify-end p-4">
           {renderButton()}
         </div>

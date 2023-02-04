@@ -32,7 +32,7 @@ export default function Sidebar() {
         <div
             onMouseEnter={() => setIsShownHoverContent(true)}
             onMouseLeave={() => setIsShownHoverContent(false)}
-            className='flex flex-col transition-all	ease-out duration-1000 w-20 hover:w-48 h-screen bg-black text-white divide-y divide-blue-200'>
+            className='flex flex-col transition-all	ease-out duration-1000 w-20 hover:w-48 h-screen bg-black text-white divide-y divide-blue-200 overflow-hidden'>
             <div className="h-20">
                 <img src='images/Gumroad_logo.png' className='w-full invert p-8' />
             </div>
