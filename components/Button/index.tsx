@@ -18,7 +18,7 @@ export default function Button(props: Props) {
       disabled={loading}
       {...rest}
     >
-      <span className="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-accent border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+      <span className={"absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-accent border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0 "}></span>
       <span className="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-accent"></span>
       <span className="relative text-black flex flex-row justify-start gap-5 px-5 items-center">{children} {loading && <Loader size={5} />}</span>
 

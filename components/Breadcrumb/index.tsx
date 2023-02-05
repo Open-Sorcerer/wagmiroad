@@ -19,7 +19,7 @@ const Breadcrumb = (props: Props) => {
                         <li key={index} className="flex ">
                             <div className="flex justify-evenly items-center gap-3">
                                 <h1
-                                    className="inline-flex items-center text-sm font-medium text-tertiary hover:text-gray-900 dark:text-tertiary dark:hover:text-white "
+                                    className="inline-flex items-center text-md font-medium hover:text-black/50"
                                     onClick={() => setActiveTab(index)}
                                 >
                                     {item}

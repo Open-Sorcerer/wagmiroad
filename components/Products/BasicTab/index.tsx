@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { categoryData } from '../../../pages/api/category';
 import CategoryCard from '../../CategoryCard';
+import { productsData } from '../../../pages/api/pdts';
 
 enum Category {
   'Course or Tutorial',
@@ -16,37 +17,29 @@ enum Category {
   'Other'
 }
 
-type Product = () => {
-  name: string;
-  description: string;
-  category: string;
-  price: number;
-}
-const BasicTab = () => {
+const BasicTab = (props: any) => {
+  const {product, setProduct} = props;
   const [name, setName] = useState<string | undefined>();
-  const [description, setDescription] = useState<string | undefined>();
   const [category, setCategory] = useState<Category | undefined>();
   const [price, setPrice] = useState<number | undefined>();
   const [categories] = useState(categoryData);
-  const [product, setProduct] = useState<Product | undefined>();
   useEffect(() => {
-      // new product constructor
-      setProduct(() => {
-          return {
-              name: name as string,
-              description: description as string,
-              category: category as unknown as string,
-              price: price as number
-          }
+    setProduct(() => {
+      return {
+        ...product,
+        name: name as string,
+        category: category as unknown as string,
+        price: price as number
       }
-      )
-  }, [category, description, name, price])
+    }
+    )
+  }, [category, name, price, product, setProduct])
   return (
     <>
       <div className='w-full h-fit flex flex-col justify-start gap-3 items-start'>
         <h2 className='text-xl font-bold'>Product Name</h2>
         <div className='relative'>
-          <input id='item_name' type='text' className='w-full sm:w-80 rounded-md px-5 py-3 shadow-md shadow-accent border-2 border-black/50 border-t-accent border-l-accent focus:border-black/50 focus:border-b-accent focus:border-r-accent focus:outline-none text-light-font transition-all peer' required onInput={(event) => setName((event.target as HTMLInputElement).value)} />
+          <input id='item_name' type='text' className='w-full sm:w-80 rounded-md px-5 py-3 shadow-md shadow-accent border-2 border-black/50 border-t-accent border-l-accent focus:border-black/50 focus:border-b-accent focus:border-r-accent focus:outline-none text-light-font transition-all peer' required onInput={(event) => setName((event.target as HTMLInputElement).value)}/>
           <label htmlFor="item_name" className="absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-5 left-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-800 peer-focus:dark:text-blue-800 peer- peer-focus:text-lg peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-valid:top-1 peer-focus:scale-75 peer-focus:-translate-y-4 backdrop-blur-sm">Name</label>
         </div>
       </div>
