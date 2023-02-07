@@ -75,7 +75,7 @@ export default function Layout(props: Props) {
   };
 
   return (
-    <div>
+    <div className="w-screen h-screen">
       <Head>
         <title>NextJS wagmi</title>
         <meta name="description" content="NextJS and wagmi template" />
@@ -86,13 +86,14 @@ export default function Layout(props: Props) {
         open={showWalletOptions}
         setOpen={setShowWalletOptions}
       />
-
-      <div className="fixed w-full">
-        <div className="flex items-center justify-end p-4">
+      
+      <div className="absolute w-full z-50">
+        <div className="flex items-center justify-end px-10 py-5">
           {renderButton()}
         </div>
       </div>
-      <div className='flex flex-row w-full h-full justify-start items-center'>
+
+      <div className='w-full h-full flex flex-row justify-start items-center relative overflow-x-hidden'>
         <Sidebar/>
         {children}
       </div>

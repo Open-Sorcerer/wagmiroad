@@ -16,7 +16,7 @@ const Products: NextPage = () => {
         { id: "status", label: "Status", align: "left" },
     ];
     return (
-        <div className='w-full h-screen flex flex-col justify-evenly items-center gap-10 p-10'>
+        <div className='w-full h-full flex flex-col justify-evenly items-center gap-10 p-10'>
             <div className='w-full h-full flex flex-col sm:flex-row justify-between items-center'>
                 <h1 className='text-7xl'>Products</h1>
                 <NewPdtBtn />

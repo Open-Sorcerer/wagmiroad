@@ -15,7 +15,6 @@ import {
 import Link from 'next/link';
 
 export default function Sidebar() {
-    const [isShownHoverContent, setIsShownHoverContent] = useState(false);
     const menu = [
         { label: 'QuickStart', icon: faBoltLightning },
         { label: 'Products', icon: faBox },
@@ -30,9 +29,7 @@ export default function Sidebar() {
     ]
     return (
         <div
-            onMouseEnter={() => setIsShownHoverContent(true)}
-            onMouseLeave={() => setIsShownHoverContent(false)}
-            className='flex flex-col transition-all	ease-out duration-1000 w-20 hover:w-48 h-screen bg-black text-white divide-y divide-blue-200 overflow-hidden'>
+            className='flex flex-col transition-all	ease-out duration-1000 w-20 hover:w-56 h-screen bg-black text-white divide-y divide-blue-200 overflow-hidden sticky top-0 left-0 z-10'>
             <div className="h-20">
                 <img src='images/Gumroad_logo.png' className='w-full invert p-8' />
             </div>

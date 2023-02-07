@@ -5,16 +5,17 @@ interface Props {
   width?: number;
   loading?: boolean;
   [x: string]: any;
+  className?: string;
 }
 
 export default function Button(props: Props) {
-  const { children, width, loading=false, ...rest } = props;
+  const { children, width, loading=false, className="", ...rest } = props;
 
   return (
     <button
       type="button"
-      className={`items-center justify-center h-14 p-3 font-semibold relative inline-block px-4 py-2 group ${width && `w-${width}`
-        } ${loading && "cursor-not-allowed opacity-50"}`}
+      className={`items-center justify-center h-fit font-semibold relative inline-block p-4 z-1 group ${width && `w-${width}`
+        } ${loading && "cursor-not-allowed opacity-50"} ${props.className}`}
       disabled={loading}
       {...rest}
     >

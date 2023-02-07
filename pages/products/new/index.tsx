@@ -1,51 +1,98 @@
 import { NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import Breadcrumb from '../../../components/Breadcrumb';
+import Button from './../../../components/Button';
 import BasicTab from '../../../components/Products/BasicTab';
 import CustomizeTab from './../../../components/Products/CustomizeTab';
-import Button from './../../../components/Button';
+import PreviewTab from '../../../components/Products/PreviewTab';
+import { productsData } from '../../api/pdts';
 
 type Product = () => {
     name: string;
     description: string;
     category: string;
     price: number;
-    payload: File;
+    file: File;
+}
+
+enum Category {
+    'Course or Tutorial',
+    'Software Credits',
+    'E book',
+    'Newsletter',
+    'PodCast',
+    'Audiobook',
+    'Membership',
+    'Physical Good',
+    'Service',
+    'Royalty',
+    'Other'
 }
 
 const CreateProduct: NextPage = () => {
+
+    const tabItems = ["Basic", "Customize", "Preview"];
     const [activeTab, setActiveTab] = useState<number>(0);
     const [product, setProduct] = useState<Product | undefined>();
+    const [name, setName] = useState<string | undefined>();
+    const [category, setCategory] = useState<Category | undefined>();
+    const [price, setPrice] = useState<number | undefined>();
+    const [description, setDescription] = useState<string | undefined>();
+    const [file, setFile] = useState<File | undefined>();
+    const hooks = {
+        product: product,
+        setProduct: setProduct,
+        name: name,
+        setName: setName,
+        category: category,
+        setCategory: setCategory,
+        price: price,
+        setPrice: setPrice,
+        description: description,
+        setDescription: setDescription,
+        file: file,
+        setFile: setFile
+    }
+
     useEffect(() => {
-        console.log(product);
-    }, [product]);
+        setProduct(() => {
+            return {
+                name: name as string,
+                category: category as unknown as string,
+                price: price as number,
+                description: description as string,
+                file: file as File
+            }
+        }
+        )
+    }, [name, category, price, description, file]);
     return (
-        <div className='w-full h-screen flex flex-col justify-start items-start gap-10 p-10'>
-            <div className='w-full h-fit'>
-                <h1 className='text-5xl'>
-                    Awesome ! Create your Product here...
-                </h1>
-            </div>
-            <div className='w-full h-fit flex justify-between'>
-                <Breadcrumb setActiveTab={setActiveTab} tabItems={["Basic", "Customize"]} />
-                <div className='w-full h-full flex justify-end items-center gap-3'>
-                    <Button onClick={() => activeTab && setActiveTab(activeTab - 1)}>Back</Button>
-                    <Button onClick={() => !activeTab && setActiveTab(activeTab + 1)}>Next</Button>
+
+            <div className='w-full h-full flex flex-col justify-start items-start px-10 relative'>
+                <div className='w-full h-fit flex flex-col justify-start gap-10 items-center sticky top-6 z-20'>
+                    <h1 className='w-full text-5xl'>
+                        Awesome ! Create your Product here...
+                    </h1>
+                    <div className='w-full h-fit flex justify-between'>
+                        <Breadcrumb activeTab={activeTab} setActiveTab={setActiveTab} tabItems={tabItems} />
+                        <div className='w-full h-full flex justify-end items-center gap-3'>
+                            <Button onClick={() => activeTab && setActiveTab(activeTab - 1)}>Back</Button>
+                            <Button onClick={() => activeTab < tabItems.length && setActiveTab(activeTab + 1)}>Next</Button>
+                        </div>
+                    </div>
+                </div>
+                <div className='w-full h-4/6 flex flex-col justify-around items-center mt-12'>
+                    {
+                        activeTab === 0 && <BasicTab hooks={hooks} />
+                    }
+                    {
+                        activeTab === 1 && <CustomizeTab hooks={hooks} />
+                    }
+                    {
+                        activeTab === 2 && <PreviewTab hooks={hooks} />
+                    }
                 </div>
             </div>
-            {
-                activeTab === 0 ?
-                    <BasicTab
-                        product={product}
-                        setProduct={setProduct}
-                    />
-                    :
-                    <CustomizeTab
-                        product={product}
-                        setProduct={setProduct}
-                    />
-            }
-        </div>
     )
 }
 
