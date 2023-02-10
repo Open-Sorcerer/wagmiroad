@@ -1,14 +1,16 @@
 import {
+  faHashtag,
+  faPlus,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useRef, useState } from 'react';
-
+import { Key, ReactChild, ReactFragment, ReactPortal, useEffect, useRef, useState } from 'react';
 
 const CustomizeTab = (props: any) => {
   const { hooks } = props;
-  const { description, setDescription, file, setFile } = hooks;
+  const { description, setDescription, file, setFile, tags, setTags } = hooks;
   let fileInputRef = useRef<HTMLInputElement>(null);
+  let tagInputRef = useRef<HTMLInputElement>(null);
   return (
     <div className='w-full h-max flex flex-col justify-between items-start gap-5'>
       <div className='w-full h-fit flex flex-col justify-start gap-3 items-start'>
@@ -68,6 +70,62 @@ const CustomizeTab = (props: any) => {
               {file?.name}
             </span>
           </div>}
+        </div>
+      </div>
+
+
+      {/* Tags Input */}
+      <div className='w-full h-fit flex flex-col justify-start gap-3 items-start'>
+        <h2 className='text-xl font-bold'>Tag your Product</h2>
+        <div className='flex flex-row flex-wrap gap-2'>
+          {
+            tags.map((item: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined, i: Key | null | undefined) => {
+              return (
+                <div key={i}
+                  className='flex flex-start gap-3 w-fit px-3 py-2 rounded-full border-2 border-black/50 bg-white hover:bg-accent'>
+                  <div className='flex flex-row justify-start items-center'>
+                    <FontAwesomeIcon
+                      icon={faHashtag}
+                      className='w-4 h-4'
+                    />
+                    <h1 className='font-bold'>{item}</h1>
+                  </div>
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    className='w-6 h-6'
+                    onClick={() =>
+                      setTags(tags.filter((val: any, idx: Key | null | undefined) => {
+                        return idx !== i;
+                      }))
+                    } />
+                </div>
+              )
+            })
+          }
+          <div
+            className='flex flex-row flex-start items-center w-fit px-3 py-2 rounded-full border-2 border-black/50 bg-white hover:bg-accent'>
+            <FontAwesomeIcon
+              icon={faHashtag}
+              className='w-4 h-4'
+            />
+            <input type='text' ref={tagInputRef} className='bg-transparent focus:outline-none font-semibold'
+              onKeyPress={event => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  setTags([...tags, (event.target as HTMLInputElement).value]);
+                  (event.target as HTMLInputElement).value = "";
+                }
+              }} />
+          </div>
+          <div
+            className='p-2 rounded-full border-2 border-black/50 bg-white hover:bg-accent'
+            onClick={() => {
+              setTags([...tags, tagInputRef.current?.value!]);
+              tagInputRef.current!.value = "";
+              console.log(tags)
+            }}>
+            <FontAwesomeIcon icon={faPlus} className='h-6 w-6' />
+          </div>
         </div>
       </div>
     </div>

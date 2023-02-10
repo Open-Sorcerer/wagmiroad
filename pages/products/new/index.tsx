@@ -13,6 +13,7 @@ type Product = () => {
     category: string;
     price: number;
     file: File;
+    tags: string[];
 }
 
 enum Category {
@@ -39,6 +40,7 @@ const CreateProduct: NextPage = () => {
     const [price, setPrice] = useState<number | undefined>();
     const [description, setDescription] = useState<string | undefined>();
     const [file, setFile] = useState<File | undefined>();
+    const [tags, setTags] = useState<string[]>([]);
     const hooks = {
         product: product,
         setProduct: setProduct,
@@ -51,7 +53,9 @@ const CreateProduct: NextPage = () => {
         description: description,
         setDescription: setDescription,
         file: file,
-        setFile: setFile
+        setFile: setFile,
+        tags: tags,
+        setTags: setTags
     }
 
     useEffect(() => {
@@ -61,11 +65,12 @@ const CreateProduct: NextPage = () => {
                 category: category as unknown as string,
                 price: price as number,
                 description: description as string,
-                file: file as File
+                file: file as File,
+                tags: tags as string[]
             }
         }
         )
-    }, [name, category, price, description, file]);
+    }, [name, category, price, description, file, tags]);
     return (
 
             <div className='w-full h-full flex flex-col justify-start items-start px-10 relative'>
@@ -76,8 +81,8 @@ const CreateProduct: NextPage = () => {
                     <div className='w-full h-fit flex justify-between'>
                         <Breadcrumb activeTab={activeTab} setActiveTab={setActiveTab} tabItems={tabItems} />
                         <div className='w-full h-full flex justify-end items-center gap-3'>
-                            <Button onClick={() => activeTab && setActiveTab(activeTab - 1)}>Back</Button>
-                            <Button onClick={() => activeTab < tabItems.length && setActiveTab(activeTab + 1)}>Next</Button>
+                            <Button color="error" onClick={() => activeTab && setActiveTab(activeTab - 1)}>Back</Button>
+                            <Button onClick={() => activeTab < tabItems.length-1 && setActiveTab(activeTab + 1)}>{activeTab === tabItems.length-1?"Publish":"Next"}</Button>
                         </div>
                     </div>
                 </div>
@@ -95,6 +100,5 @@ const CreateProduct: NextPage = () => {
             </div>
     )
 }
-
 
 export default CreateProduct;

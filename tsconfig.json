@@ -7,14 +7,14 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
+    "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/CategoryCard.tsx", "components/CategoryCard"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/movies.js"],
   "exclude": ["node_modules"]
 }

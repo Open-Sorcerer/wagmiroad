@@ -1,12 +1,12 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
 import NewPdtBtn from '../../components/Products/NewPdtBtn/index';
-import { productsData } from '../api/pdts';
 import { statsData } from '../api/stats';
 import ProductRow from '../../components/Products/ProductRow';
 import StatCard from '../../components/Products/StatCard';
+import clientPromise from "../../lib/mongodb";
 
-const Products: NextPage = () => {
+const Products: NextPage = ({productsData}:any) => {
     const [products] = useState(productsData);
     const [stats] = useState(statsData);
     const columns = [
@@ -43,7 +43,7 @@ const Products: NextPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map(item => {
+                    {products.map((item:any) => {
                         return <ProductRow key={item.id} {...item} />
                     })}
                 </tbody>
@@ -52,5 +52,24 @@ const Products: NextPage = () => {
     )
 }
 
+export async function getServerSideProps() {
+    try {
+        const client = await clientPromise;
+        const db = client.db("gumroad");
+
+        const products = await db
+            .collection("products")
+            .find({})
+            // .sort({ metacritic: -1 })
+            // .limit(20)
+            .toArray();
+
+        return {
+            props: { productsData: JSON.parse(JSON.stringify(products)) },
+        };
+    } catch (e) {
+        console.error(e);
+    }
+}
 
 export default Products;

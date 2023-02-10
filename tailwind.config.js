@@ -10,8 +10,10 @@ module.exports = {
         'black': "#000000",
         'primary': "#ffffff",
         'secondary': "#000000",
-        'accent' : "#bff22d",
-        'lime' : "#bff22d",
+        'error': "#e35335",
+        'blue': "#4ba6ff",
+        'accent': "#bff22d",
+        'lime': "#bff22d",
         'dark': "#000000",
         'gray': "#f5f5f5",
         "light-theme-gray": "rgb(182, 206, 173)",
@@ -34,7 +36,7 @@ module.exports = {
       width: {
         card: "250px",
         button: "100px"
-      } 
+      }
     },
   },
   plugins: [],

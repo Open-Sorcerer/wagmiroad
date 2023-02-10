@@ -2,7 +2,7 @@
 import { useAccount, useBalance } from "wagmi";
 import { Button } from "../..";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faHashtag } from "@fortawesome/free-solid-svg-icons";
 
 const PreviewTab = (props: any) => {
   const { hooks } = props;
@@ -37,7 +37,21 @@ const PreviewTab = (props: any) => {
               BUY NOW
             </div>
           </Button>
-
+          <div className='flex flex-row flex-start gap-2 flex-wrap'>
+            {
+              product?.tags?.map((item: string) => {
+                return (
+                  <div className='flex flex-row justify-start items-centerflex flex-start gap-3 w-fit px-3 py-2 rounded-full border-2 border-black/50 bg-white hover:bg-accent' key={item}>
+                    <FontAwesomeIcon
+                      icon={faHashtag}
+                      className='w-4 h-4'
+                    />
+                    <h1 className='font-bold'>{item}</h1>
+                  </div>
+                )
+              })
+            }
+          </div>
           <h3 className='text-lg'>{product?.description}</h3>
         </div>
       </div>
