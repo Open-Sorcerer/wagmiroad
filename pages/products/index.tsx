@@ -1,14 +1,16 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
 import NewPdtBtn from '../../components/Products/NewPdtBtn/index';
-import { statsData } from '../api/stats';
 import ProductRow from '../../components/Products/ProductRow';
 import StatCard from '../../components/Products/StatCard';
-import clientPromise from "../../lib/mongodb";
+import { statsData } from '../api/stats';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronCircleLeft, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
 
-const Products: NextPage = ({productsData}:any) => {
+const Products: NextPage = ({ productsData }: any) => {
     const [products] = useState(productsData);
     const [stats] = useState(statsData);
+    const [baseIdx, setBaseIdx] = useState(0);
     const columns = [
         { id: "position", label: "Sl No.", align: "left" },
         { id: "title", label: "Title", align: "left" },
@@ -16,9 +18,13 @@ const Products: NextPage = ({productsData}:any) => {
         { id: "status", label: "Status", align: "left" },
     ];
     return (
-        <div className='w-full h-full flex flex-col justify-evenly items-center gap-10 p-10'>
-            <div className='w-full h-full flex flex-col sm:flex-row justify-between items-center'>
-                <h1 className='text-7xl'>Products</h1>
+        <div className='w-full h-full flex flex-col justify-evenly items-center gap-10 p-10 relative'>
+            <div className='w-full h-fit flex flex-col justify-start gap-10 items-center sticky top-6 z-20'>
+                <h1 className='w-full text-5xl font-bold'>
+                    Products
+                </h1>
+            </div>
+            <div className='w-full h-full flex flex-col sm:flex-row justify-end items-center'>
                 <NewPdtBtn />
             </div>
             <div className='w-full h-40 flex justify-evenly items-center gap-5'>
@@ -28,26 +34,42 @@ const Products: NextPage = ({productsData}:any) => {
                     })
                 }
             </div>
-            <table className='w-full h-full table overflow-auto table-auto border-separate border border-slate-400 text-sm text-left bg-white text-black'>
-                <thead className="table-header-group text-xl">
-                    <tr className='table-row'>
-                        {columns.map((column) => (
-                            <th
-                                scope="col"
-                                className={"table-cell text-left px-6 py-3 bg-black text-white text-" + column.align}
-                                key={column.id}
-                            >
-                                {column.label}
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.map((item:any, idx: any) => {
-                        return <ProductRow key={item.id} idx={idx} {...item} />
-                    })}
-                </tbody>
-            </table>
+            <div className='w-full h-full flex flex-col justify-start items-center gap-0 outline-dashed'>
+                <table className='w-full h-full table overflow-auto table-auto text-sm text-left bg-white text-black'>
+                    <thead className="table-header-group text-xl">
+                        <tr className='table-row'>
+                            {columns.map((column) => (
+                                <th
+                                    scope="col"
+                                    className={"table-cell text-left px-6 py-3 bg-black text-white text-" + column.align}
+                                    key={column.id}
+                                >
+                                    {column.label}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products.slice(baseIdx, baseIdx+5).map((item: any, idx: any) => {
+                            return <ProductRow key={item.id} idx={baseIdx+idx} {...item} />
+                        })}
+                    </tbody>
+                </table>
+                <div className='w-full flex flex-row justify-end items-center bg-white px-10 py-2 gap-5 divide-x-2'>
+                    <div 
+                    className='w-fit h-full flex flex-row justify-around gap-2 items-center'
+                    onClick={()=>baseIdx>=5 && setBaseIdx(baseIdx-5)}>
+                        <FontAwesomeIcon icon={faChevronCircleLeft} className='h-6 w-6' />
+                        <h5 className='text-base'>Newer</h5>
+                    </div>
+                    <div 
+                    className='w-fit h-full flex flex-row justify-around gap-2 items-center px-2'
+                    onClick={()=>baseIdx<products.length-5 && setBaseIdx(baseIdx+5)}>
+                        <h5 className='text-base'>Older</h5>
+                        <FontAwesomeIcon icon={faChevronCircleRight} className='h-6 w-6' />
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
@@ -57,10 +79,10 @@ export async function getServerSideProps() {
         let res = await fetch("http://localhost:3000/api/posts", {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
-          });
-          let products = await res.json();
+        });
+        let products = await res.json();
 
         return {
             props: { productsData: JSON.parse(JSON.stringify(products.data)) },
