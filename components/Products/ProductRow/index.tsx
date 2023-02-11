@@ -16,9 +16,9 @@ const ProductRow = (props: PdtProps) => {
     const { title, description, price, status, idx } = props;
     const [isInfo, setIsInfo] = useState(false);
     return (
-        <tr className='table-row odd:bg-gray-800 odd:border-gray-700 even:bg-gray-900 even:border-gray-700'>
-            <td className='table-cell text-left px-6 py-2  mono text-xl font-semibold'>{idx+1}</td>
-            <th scope="row" className='relative flex flex-row text-left  px-6 py-2 font-medium text-xl whitespace-nowrap justify-between'>{title}
+        <tr className={`table-row ${idx%2&&"bg-slate-200"}`}>
+            <td className='table-cell px-6 py-2  mono text-xl font-semibold'>{idx+1}</td>
+            <th scope="row" className='relative flex flex-row  px-6 py-2 font-medium text-xl whitespace-nowrap justify-between'>{title}
                 <FontAwesomeIcon
                     icon={faCircleInfo}
                     size='2x'
@@ -33,8 +33,8 @@ const ProductRow = (props: PdtProps) => {
                     </div>
                 }
             </th>
-            <td className='text-xl table-cell text-right px-6 py-2  mono'>{price}</td>
-            <td className='text-xl table-cell text-left px-6 py-2  mono'>{status}</td>
+            <td className='text-xl table-cell px-6 py-2 mono font-semibold'>${price?.toFixed(2)}</td>
+            <td className='text-xl table-cell px-6 py-2 mono'>{status}</td>
         </tr>
     );
 };
