@@ -28,7 +28,7 @@ const Products: NextPage = ({productsData}:any) => {
                     })
                 }
             </div>
-            <table className='w-full h-fit table overflow-x-auto table-auto border-separate border border-slate-400 text-sm text-left bg-white text-black'>
+            <table className='w-full h-full table overflow-auto table-auto border-separate border border-slate-400 text-sm text-left bg-white text-black'>
                 <thead className="table-header-group text-xl">
                     <tr className='table-row'>
                         {columns.map((column) => (
@@ -43,8 +43,8 @@ const Products: NextPage = ({productsData}:any) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((item:any) => {
-                        return <ProductRow key={item.id} {...item} />
+                    {products.map((item:any, idx: any) => {
+                        return <ProductRow key={item.id} idx={idx} {...item} />
                     })}
                 </tbody>
             </table>
@@ -54,18 +54,16 @@ const Products: NextPage = ({productsData}:any) => {
 
 export async function getServerSideProps() {
     try {
-        const client = await clientPromise;
-        const db = client.db("gumroad");
-
-        const products = await db
-            .collection("products")
-            .find({})
-            // .sort({ metacritic: -1 })
-            // .limit(20)
-            .toArray();
+        let res = await fetch("http://localhost:3000/api/posts", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          let products = await res.json();
 
         return {
-            props: { productsData: JSON.parse(JSON.stringify(products)) },
+            props: { productsData: JSON.parse(JSON.stringify(products.data)) },
         };
     } catch (e) {
         console.error(e);

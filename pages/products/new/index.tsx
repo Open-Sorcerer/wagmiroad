@@ -6,9 +6,10 @@ import BasicTab from '../../../components/Products/BasicTab';
 import CustomizeTab from './../../../components/Products/CustomizeTab';
 import PreviewTab from '../../../components/Products/PreviewTab';
 import { productsData } from '../../api/pdts';
+import clientPromise from "../../../lib/mongodb";
 
 type Product = () => {
-    name: string;
+    title: string;
     description: string;
     category: string;
     price: number;
@@ -61,44 +62,59 @@ const CreateProduct: NextPage = () => {
     useEffect(() => {
         setProduct(() => {
             return {
-                name: name as string,
+                title: name as string,
                 category: category as unknown as string,
                 price: price as number,
                 description: description as string,
                 file: file as File,
-                tags: tags as string[]
+                tags: tags as string[],
+                status: "Published"
             }
         }
         )
     }, [name, category, price, description, file, tags]);
+
+    // add post to db
+    const addPost = async (product: Product) => {
+        let res = await fetch("http://localhost:3000/api/posts", {
+            method: "POST",
+            body: JSON.stringify(product),
+        });
+        let json = await res.json();
+        setProduct(undefined);
+        console.log("added post", json);
+    };
+
+
     return (
 
-            <div className='w-full h-full flex flex-col justify-start items-start px-10 relative'>
-                <div className='w-full h-fit flex flex-col justify-start gap-10 items-center sticky top-6 z-20'>
-                    <h1 className='w-full text-5xl'>
-                        Awesome ! Create your Product here...
-                    </h1>
-                    <div className='w-full h-fit flex justify-between'>
-                        <Breadcrumb activeTab={activeTab} setActiveTab={setActiveTab} tabItems={tabItems} />
-                        <div className='w-full h-full flex justify-end items-center gap-3'>
-                            <Button color="error" onClick={() => activeTab && setActiveTab(activeTab - 1)}>Back</Button>
-                            <Button onClick={() => activeTab < tabItems.length-1 && setActiveTab(activeTab + 1)}>{activeTab === tabItems.length-1?"Publish":"Next"}</Button>
-                        </div>
+        <div className='w-full h-full flex flex-col justify-start items-start px-10 relative'>
+            <div className='w-full h-fit flex flex-col justify-start gap-10 items-center sticky top-6 z-20'>
+                <h1 className='w-full text-5xl'>
+                    Awesome ! Create your Product here...
+                </h1>
+                <div className='w-full h-fit flex justify-between'>
+                    <Breadcrumb activeTab={activeTab} setActiveTab={setActiveTab} tabItems={tabItems} />
+                    <div className='w-full h-full flex justify-end items-center gap-3'>
+                        <Button color="error" onClick={() => activeTab && setActiveTab(activeTab - 1)}>Back</Button>
+                        <Button onClick={() => activeTab < tabItems.length - 1 ? setActiveTab(activeTab + 1): addPost(product!)}>{activeTab === tabItems.length - 1 ? "Publish" : "Next"}</Button>
                     </div>
                 </div>
-                <div className='w-full h-4/6 flex flex-col justify-around items-center mt-12'>
-                    {
-                        activeTab === 0 && <BasicTab hooks={hooks} />
-                    }
-                    {
-                        activeTab === 1 && <CustomizeTab hooks={hooks} />
-                    }
-                    {
-                        activeTab === 2 && <PreviewTab hooks={hooks} />
-                    }
-                </div>
             </div>
+            <div className='w-full h-4/6 flex flex-col justify-around items-center mt-12'>
+                {
+                    activeTab === 0 && <BasicTab hooks={hooks} />
+                }
+                {
+                    activeTab === 1 && <CustomizeTab hooks={hooks} />
+                }
+                {
+                    activeTab === 2 && <PreviewTab hooks={hooks} />
+                }
+            </div>
+        </div>
     )
 }
+
 
 export default CreateProduct;

@@ -1,10 +1,10 @@
-import React, { ReactNode } from 'react';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 interface PdtProps {
     id: number;
+    idx: number;
     children?: ReactNode;
     title: string;
     description?: string;
@@ -13,11 +13,11 @@ interface PdtProps {
 }
 
 const ProductRow = (props: PdtProps) => {
-    const { id, title, description, price, status, children } = props;
+    const { title, description, price, status, idx } = props;
     const [isInfo, setIsInfo] = useState(false);
     return (
         <tr className='table-row odd:bg-gray-800 odd:border-gray-700 even:bg-gray-900 even:border-gray-700'>
-            <td className='table-cell text-left px-6 py-2  mono text-xl font-semibold'>{id}</td>
+            <td className='table-cell text-left px-6 py-2  mono text-xl font-semibold'>{idx+1}</td>
             <th scope="row" className='relative flex flex-row text-left  px-6 py-2 font-medium text-xl whitespace-nowrap justify-between'>{title}
                 <FontAwesomeIcon
                     icon={faCircleInfo}
